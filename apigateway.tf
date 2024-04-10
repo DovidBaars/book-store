@@ -1,5 +1,5 @@
 resource "aws_api_gateway_rest_api" "book_store_rest_api" {
-  name = "book_store"
+  name   = "book_store"
 }
 
 resource "aws_api_gateway_resource" "book_store_rest_api_resource" {
@@ -54,7 +54,7 @@ resource "aws_api_gateway_integration" "delete_book_rest_api_integration" {
   resource_id             = aws_api_gateway_resource.book_store_rest_api_resource.id
   http_method             = aws_api_gateway_method.delete_book_rest_api_method.http_method
   type                    = "AWS_PROXY"
-  integration_http_method = "DELETE"
+  integration_http_method = "POST"
   uri                     = aws_lambda_function.delete_book_function.invoke_arn
 }
 
@@ -63,7 +63,7 @@ resource "aws_api_gateway_integration" "retrieve_book_rest_api_integration" {
   resource_id             = aws_api_gateway_resource.book_store_rest_api_resource.id
   http_method             = aws_api_gateway_method.retrieve_book_rest_api_method.http_method
   type                    = "AWS_PROXY"
-  integration_http_method = "GET"
+  integration_http_method = "POST"
   uri                     = aws_lambda_function.retrieve_book_function.invoke_arn
 }
 
@@ -72,7 +72,7 @@ resource "aws_api_gateway_integration" "update_book_rest_api_integration" {
   resource_id             = aws_api_gateway_resource.book_store_rest_api_resource.id
   http_method             = aws_api_gateway_method.update_book_rest_api_method.http_method
   type                    = "AWS_PROXY"
-  integration_http_method = "PUT"
+  integration_http_method = "POST"
   uri                     = aws_lambda_function.update_book_function.invoke_arn
 }
 

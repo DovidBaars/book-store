@@ -1,12 +1,16 @@
 {
   "scripts": {
-    "zip": "tsc && node zip.js",
-    "login": "aws cognito-idp initiate-auth --auth-flow USER_PASSWORD_AUTH --auth-parameters \"USERNAME=test,PASSWORD=dfgDfg121$\" --client-id 2vujog4gsjgi8tnnrgcumce8fr"
+    "login": "node login.js"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.137",
     "@types/node": "^20.12.5",
-    "archiver": "^7.0.1"
+    "archiver": "^7.0.1",
+    "dotenv": "^16.4.5",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
   },
   "dependencies": {
     "aws-sdk": "^2.1595.0"

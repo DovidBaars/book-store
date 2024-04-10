@@ -7,3 +7,5 @@ plan
 api/package-lock.json
 /api/node_modules
 /api/dist
+.env
+/.terraform
