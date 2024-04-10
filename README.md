@@ -16,7 +16,7 @@ It allows store employees to:
     PASSWORD
     CLIENT_ID
 2. cd api && npm run login
-3. The returned credentials IdToken is used as the Bearer token in requests
+3. The returned credential IdToken is used as the Bearer token in requests
 
  
 **Deploy**
