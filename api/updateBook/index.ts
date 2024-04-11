@@ -13,7 +13,7 @@ export const handler: APIGatewayProxyHandler = async (event) => {
   if (!bookData || !isbn) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ message: 'No book, or ISBN provided' }),
+      body: JSON.stringify({ message: 'No book, or isbn provided' }),
     };
   }
 

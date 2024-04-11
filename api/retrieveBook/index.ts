@@ -11,14 +11,14 @@ export const handler: APIGatewayProxyHandler = async (event) => {
   if (!isbn) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ message: 'No ISBN provided' }),
+      body: JSON.stringify({ message: 'No isbn provided' }),
     };
   }
 
   const params = {
     TableName: bookTable,
     Key: {
-      "ISBN": isbn
+      "isbn": isbn
     },
   };
 

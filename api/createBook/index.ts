@@ -5,20 +5,39 @@ import { Book } from './../interfaces/Book';
 const dynamoDb = new DynamoDB.DocumentClient();
 
 export const handler: APIGatewayProxyHandler = async (event) => {
-  const bookData: Book = event?.body && JSON.parse(event.body);
-  const bookTable = process.env.BOOK_TABLE as string
-  
+  let bookData: Book;
+
+ 
+  try {
+    bookData = event?.body ? JSON.parse(event.body) : undefined;
+  } catch (error) {
+    console.error('Failed to parse event body:', error);
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ message: 'Invalid book data' }),
+    };
+  }
+
   if (!bookData) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ message: 'No book provided' }),
+      body: JSON.stringify({ message: 'No book data provided' }),
     };
   }
+
+  const bookTable = process.env.BOOK_TABLE as string
 
   const params = {
     TableName: bookTable,
     Item: bookData,
   };
+
+  if (!params.Item) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ message: 'No book data to store in DynamoDB' }),
+    };
+  }
 
   try {
     await dynamoDb.put(params).promise();
@@ -27,10 +46,11 @@ export const handler: APIGatewayProxyHandler = async (event) => {
       body: JSON.stringify(params.Item),
     };
   } catch (error) {
-    console.error(error);
+    console.error('DynamoDB error:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: 'Could not create book' }),
+      //TODO: Do not return error details in production 
+      body: JSON.stringify({ message: 'Could not create book ' + error}),
     };
   }
 };

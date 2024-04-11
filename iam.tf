@@ -10,18 +10,31 @@ data "aws_iam_policy_document" "trust_policy_document" {
   }
 }
 
-data "aws_iam_policy_document" "lambda_crud_policy_document" {
+data "aws_iam_policy_document" "lambda_dynamodb_policy_document" {
   statement {
     actions = [
       "lambda:CreateFunction",
       "lambda:DeleteFunction",
       "lambda:InvokeFunction",
-      "lambda:UpdateFunctionConfiguration"
+      "lambda:UpdateFunctionConfiguration",
+      "dynamodb:PutItem",  
+      "dynamodb:GetItem",  
+      "dynamodb:UpdateItem",  
+      "dynamodb:DeleteItem"  
     ]
     effect = "Allow"
-
-    resources = ["arn:aws:lambda:us-east-1:492267186702:function:*"]
+    resources = [
+      "arn:aws:lambda:us-east-1:492267186702:function:*",
+      "arn:aws:dynamodb:us-east-1:492267186702:table/*"
+    ]
   }
+}
+
+
+resource "aws_iam_policy" "lambda_crud_policy" {
+  name        = "lambda-crud-policy"
+  description = "Allows create, delete, retrieve, and update operations on Lambda functions"
+  policy      = data.aws_iam_policy_document.lambda_dynamodb_policy_document.json
 }
 
 data "aws_iam_policy_document" "apigw_invoke_lambda_policy_document" {
@@ -30,12 +43,6 @@ data "aws_iam_policy_document" "apigw_invoke_lambda_policy_document" {
     effect  = "Allow"
     resources = ["arn:aws:lambda:us-east-1:492267186702:function:*"]
   }
-}
-
-resource "aws_iam_policy" "lambda_crud_policy" {
-  name        = "lambda-crud-policy"
-  description = "Allows create, delete, retrieve, and update operations on Lambda functions"
-  policy      = data.aws_iam_policy_document.lambda_crud_policy_document.json
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_crud_policy_attachment" {
