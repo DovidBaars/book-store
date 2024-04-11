@@ -9,3 +9,5 @@ api/package-lock.json
 /api/dist
 .env
 /.terraform
+.terraform
+.terraform.tfstate.lock.info
