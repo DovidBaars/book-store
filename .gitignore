@@ -11,3 +11,4 @@ api/package-lock.json
 /.terraform
 .terraform
 .terraform.tfstate.lock.info
+.vscode
